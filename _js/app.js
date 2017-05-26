@@ -1,17 +1,15 @@
-var ViewModel = function(){
+var ViewModel = {
+  getClientes : function(){
+    return Model.clientes;
+  },
 
+  init : function(){
+    View.init();
+  }
 };
 
-var Model = function(){
-
-};
-
-var View = function(){
-
-};
-
-var li = function(){
-  var clientes = [
+var Model = {
+  clientes : [
     {
       "title" : "Black Knight Studio BR",
       "desc" : "Agência de marketing digital.",
@@ -61,21 +59,28 @@ var li = function(){
       "tel" : "(19)3656-2178"
     }
   ]
-
-  if(clientes.length > 0){
-    var br = "<br>";
-    var listaInicio = '<div class="caixaClientes"><li>';
-    var listaFim = '</li></div>';
-    var total = "";
-    for(var i = 0; i < clientes.length; i++){
-      total = listaInicio + clientes[i].title + br + clientes[i].desc + br + clientes[i].end + br + clientes[i].cel + br + clientes[i].tel + br + listaFim;
-      $("#listaClientes").append(total);
-    }
-  }
-
 };
 
-//Iniciando app.
-ko.applyBindings(new ViewModel());
+var View = {
+   li : function(){
+    var clientes = ViewModel.getClientes();
 
-li();
+    if(clientes.length > 0){
+      var br = "<br>";
+      var listaInicio = '<div class="caixaClientes"><li><h3>';
+      var listaFim = '</li></div>';
+      var total = "";
+      for(var i = 0; i < clientes.length; i++){
+        total = listaInicio + clientes[i].title + "</h3>" + clientes[i].desc + br + clientes[i].end + br + clientes[i].cel + br + clientes[i].tel + br + listaFim;
+        $("#listaClientes").append(total);
+      }
+    }
+  },
+
+  init : function(){
+    View.li();
+  }
+};
+
+//Inicia app
+ViewModel.init();
