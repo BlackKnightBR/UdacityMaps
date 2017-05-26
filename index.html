@@ -9,7 +9,10 @@
    <div class="option-box">
      <div class="caixa">
      <h1>Conheça a BKS-BR.</h1>
-     <div>
+     <figure id="caixaLogo">
+       <img id="logoBKSBR" src="_imagens/LogoNovo(1).png" alt="Logo da empresa Black Knight Studio BR">
+     </figure>
+     <div id="botoes">
        <input id="show-listings" type="button" value="Exibir Clientes">
        <input id="hide-listings" type="button" value="Esconder Clientes">
      </div>
@@ -20,12 +23,8 @@
    <div id="map"></div>
    <script>
      var map;
-
      // Create a new blank array for all the listing markers.
      var markers = [];
-
-     // This global polygon variable is to ensure only ONE polygon is rendered.
-     var polygon = null;
 
      function initMap() {
        // Create a styles array to use with the map.

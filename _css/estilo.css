@@ -4,9 +4,22 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: lightgrey;
+  background-color: darkgrey;
   font-family: 'Open Sans', sans-serif;
 }
+
+#logoBKSBR {
+  max-width: 60px;
+  max-height: 80px;
+  margin-left: 30%;
+  border-radius: 8px;
+  border: 1px solid black;
+}
+
+#botoes {
+  margin-left: 10%;
+}
+
 #map {
    height: 100%;
    bottom: 0px;
@@ -32,6 +45,7 @@ html, body {
    padding: 10px;
    border-radius: 8px;
    font-family: 'Roboto', sans-serif;
+   background-color: lightgrey;
  }
 
  .caixaClientes {
@@ -40,6 +54,7 @@ html, body {
    padding: 10px;
    border-radius: 10px;
    font-family: 'Roboto Condensed', sans-serif;
+   background-color: white;
  }
 
  .container {
