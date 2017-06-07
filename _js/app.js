@@ -20,6 +20,8 @@ var ViewModel = {
 };
 
 var Model = {
+
+//Array com informações dos clientes.
   clientes : [
     {
       "title" : "Black Knight Studio BR",
@@ -71,6 +73,7 @@ var Model = {
     }
   ],
 
+//Array com os estilos para o mapa.
   styles : [
     {
       featureType: 'water',
@@ -138,6 +141,7 @@ var Model = {
     }
   ],
 
+//Array de marcadores, posição e título.
   locations : [
     {title: 'Black Knight Studio BR', location: {lat: -21.4740523 , lng: -47.0034376}},
     {title: 'Clebinarius Social Estudio', location: {lat: -21.4659485 , lng: -47.000363 }},
@@ -150,6 +154,7 @@ var Model = {
 
 var View = {
 
+//Adiciona informação as janelas de informações, se elas existirem.
   populateInfoWindow : function(marker, infowindow) {
     if (infowindow.marker != marker) {
       infowindow.setContent('');
@@ -187,6 +192,7 @@ var View = {
     }
   },
 
+//Cria o ícone do marcadores.
   makeMarkerIcon : function(markerColor) {
     var markerImage = new google.maps.MarkerImage(
       'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
@@ -198,6 +204,7 @@ var View = {
     return markerImage;
   },
 
+//Mostra os marcadores dos clientes.
   showListings : function() {
     var bounds = new google.maps.LatLngBounds();
     for (var i = 0; i < markers.length; i++) {
@@ -207,12 +214,14 @@ var View = {
     map.fitBounds(bounds);
   },
 
+//Esconde os marcadores dos clientes
   hideListings : function() {
     for (var i = 0; i < markers.length; i++) {
       markers[i].setMap(null);
     }
   },
 
+//Recupera a foto do serviço de StreetView do Google
   getStreetView : function(data, status) {
     if (status == google.maps.StreetViewStatus.OK) {
       var nearStreetViewLocation = data.location.latLng;
@@ -249,7 +258,9 @@ var View = {
     }
   },
 
-  init : function(){
+//Função que relaciona o mapa ao seu elemento HTML e define os marcadores, suas posições, títulos,
+//cores e adiciona a janela de informações.
+  initMap : function(){
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: -21.4740523, lng: -47.0034376},
       zoom: 16,
@@ -289,9 +300,15 @@ var View = {
       });
     };
 
+    //Adiciona as funções aos botões.
     document.getElementById('show-listings').addEventListener('click', View.showListings);
     document.getElementById('hide-listings').addEventListener('click', View.hideListings);
+  },
 
+  init : function(){
+    //Inicia o mapa.
+    View.initMap();
+    //Cria a lista de clientes.
     View.li();
   }
 };
