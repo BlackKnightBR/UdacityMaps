@@ -306,9 +306,7 @@ var View = {
   },
 
   init : function(){
-    //Inicia o mapa.
     View.initMap();
-    //Cria a lista de clientes.
     View.li();
   }
 };
