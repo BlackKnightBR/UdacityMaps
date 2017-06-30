@@ -81,7 +81,7 @@ html, body {
 
 @media screen and (max-width: 500px) {
   #map {
-    top: 53%;
+    top: 341px;
     left: 0px;
     height: 100%;
     max-width: 100%;

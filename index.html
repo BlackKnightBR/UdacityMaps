@@ -13,19 +13,28 @@
        <img id="logoBKSBR" src="_imagens/LogoNovo(1).png" alt="Logo da empresa Black Knight Studio BR">
      </figure>
      <div id="botoes">
-       <input id="show-listings" type="button" value="Exibir Clientes">
-       <input id="hide-listings" type="button" value="Esconder Clientes">
-       <input id="user-input" type="text" value="Nome do Cliente">
-       <input id="search-input" type="button" value="Busca">
+       <button id="show-listings" data-bind="click: showListings"> Mostrar Clientes </button>
+       <button id="hide-listings" data-bind="click: hideListings"> Esconder Clientes</button>
+       <input id="user-input" data-bind="value: nomeCliente">
+       <button id="search-input" data-bind="click: mostrarCliente"> Mostrar </button>
      </div>
+   </div>
+    <div>
+      <ul  id="listaClientes" data-bind="foreach: clientes">
+        <div class="caixaClientes">
+          <li>
+            <h3 data-bind="text: title"></h3>
+            <p data-bind="text: desc"></p>
+            <p data-bind="text: end"></p>
+            <p data-bind="text: cel"></p>
+            <p data-bind="text: tel"></p>
+          </li>
+        </div>
+      </ul>
     </div>
-     <ul id="listaClientes">
-     </ul>
-  </div>
    <div id="map" class="flex-column"></div>
 
      <script src="_js/lib/knockout-3.4.2.js"></script>
-     <script src="_js/lib/jquery-3.1.1.js"></script>
      <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=geometry&key=AIzaSyDsz4DlbTdx0_9XyYSvq7qMK40yDeUD8nE&v=3"></script>
      <script async src="_js/app.js"></script>
    </body>
