@@ -1,15 +1,19 @@
+//Variáveis globais.
 var map;
 var markers = [];
 var marker = null;
 var largeInfoWindow = new google.maps.InfoWindow();
 
+//Aplicando a bibloteca knockout.js e suas práticas.
 function AppViewModel(){
+  //Área de dados.
   this.nomeCliente = ko.observable("Nome do Cliente");
+  //Array com todas as inormações dos clientes.
   this.clientes = ko.observableArray([
     {
       "title" : "Black Knight Studio BR",
       "desc" : "Agência de marketing digital.",
-      "loc" : {lat: -21.4740523 , lng: -47.0034376},
+      "location" : {lat: -21.4740523 , lng: -47.0034376},
       "end" : "Rua Recife, 149, Mococa-SP.",
       "cel" : "(19)99194-4298",
       "tel" : "(19)3656-2178"
@@ -17,7 +21,7 @@ function AppViewModel(){
     {
       "title" : "Clebinarius Social Estudio",
       "desc" : "Estudio de piercings em Mococa.",
-      "loc" : {lat: -21.4659485 , lng: -47.000363 },
+      "location" : {lat: -21.4659485 , lng: -47.000363 },
       "end" : "Rua Recife, 149, Mococa-SP.",
       "cel" : "(19)99194-4298",
       "tel" : "(19)3656-2178"
@@ -25,7 +29,7 @@ function AppViewModel(){
     {
       "title" : "Pisani Inovações",
       "desc" : "Inovações em pintura e texturização.",
-      "loc" : {lat: -21.4490099 , lng: -47.0121738},
+      "location" : {lat: -21.4490099 , lng: -47.0121738},
       "end" : "Rua Recife, 149, Mococa-SP.",
       "cel" : "(19)99194-4298",
       "tel" : "(19)3656-2178"
@@ -33,7 +37,7 @@ function AppViewModel(){
     {
       "title" : "Fábio Celulares",
       "desc" : "Conserto, peças e serviços para o seu celular ou tablet.",
-      "loc" : {lat: -21.4657949 , lng: -47.0141764},
+      "location" : {lat: -21.4657949 , lng: -47.0141764},
       "end" : "Rua Recife, 149, Mococa-SP.",
       "cel" : "(19)99194-4298",
       "tel" : "(19)3656-2178"
@@ -41,7 +45,7 @@ function AppViewModel(){
     {
       "title" : "Açougue São Domingos",
       "desc" : "Casa de carnes do Tião Nicola.",
-      "loc" : {lat: -21.4571339 , lng: -47.005603},
+      "location" : {lat: -21.4571339 , lng: -47.005603},
       "end" : "Rua Recife, 149, Mococa-SP.",
       "cel" : "(19)99194-4298",
       "tel" : "(19)3656-2178"
@@ -49,22 +53,13 @@ function AppViewModel(){
     {
       "title" : "Clinica Wilson Saboya Brito Filho",
       "desc" : "Clinica de ginecologia.",
-      "loc" : {lat: -21.4740523 , lng: -47.0034376},
+      "location" : {lat: -21.4740523 , lng: -47.0034376},
       "end" : "Rua Recife, 149, Mococa-SP.",
       "cel" : "(19)99194-4298",
       "tel" : "(19)3656-2178"
     }
   ]);
-
-  this.locations = [
-    {title: 'Black Knight Studio BR', location: {lat: -21.4740523 , lng: -47.0034376}},
-    {title: 'Clebinarius Social Estudio', location: {lat: -21.4659485 , lng: -47.000363 }},
-    {title: 'Pisani Inovações', location: {lat: -21.4490099 , lng: -47.0121738}},
-    {title: 'Fábio Celulares', location: {lat: -21.4657949 , lng: -47.0141764}},
-    {title: 'Açougue São Domingos', location: {lat: -21.4571339 , lng: -47.005603}},
-    //{title: 'Clinica Wilson Saboya Brito Filho', location: {lat: 40.7180628 , lng: -73.9961237}}
-  ];
-
+//Array com as informações para estilizar o mapa.
   this.styles = [
     {
       featureType: 'water',
@@ -131,7 +126,8 @@ function AppViewModel(){
       ]
     }
   ];
-
+  //Fim da seção de dados.
+  //Cria marcador a partir da escolha de uma cor.
   this.makeMarkerIcon = function(markerColor){
     var markerImage = new google.maps.MarkerImage(
       'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
@@ -143,6 +139,8 @@ function AppViewModel(){
     return markerImage;
   };
 
+//Função a qual ínicia o app. Carregamento do mapa e carregamento dados
+//e do preenchimento do array "markers".
   this.onLoad = function(){
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: -21.4740523, lng: -47.0034376},
@@ -153,8 +151,7 @@ function AppViewModel(){
 
     var defaultIcon = this.makeMarkerIcon('0091ff');
     var highlightedIcon = this.makeMarkerIcon('FFFF24');
-    var locations = this.locations;
-
+    var locations = this.clientes();
 
     for (var i = 0; i < locations.length; i++) {
       var position = locations[i].location;
@@ -179,6 +176,7 @@ function AppViewModel(){
     };
   };
 
+//Função a qual mostra todos os marcadores dos clientes.
   this.showListings = function(){
     var bounds = new google.maps.LatLngBounds();
     for (var i = 0; i < markers.length; i++) {
@@ -189,6 +187,8 @@ function AppViewModel(){
     if(marker) marker.setMap(null);
   };
 
+//Função a qual remove todos marcadores do mapa,
+//mesmo marcadores únicos.
   this.hideListings = function(){
     if(marker) marker.setMap(null);
     for (var i = 0; i < markers.length; i++) {
@@ -196,6 +196,10 @@ function AppViewModel(){
     }
   };
 
+//Função que adiciona o marcador do cliente selecionado pelo
+//usuário na entrada de texto, também carrega uma janela com informações.
+//Os apps externos indicados não possuem informações sobre minha cidade,
+//por isso não adicionei fontes externas.
   this.mostrarCliente = function(){
     var nome = this.nomeCliente();
     var todosClientes = this.clientes();
@@ -211,20 +215,14 @@ function AppViewModel(){
         map.setCenter(marker.position);
         map.setZoom(18);
         marker.addListener('click', function() {
-          // Check to make sure the largeInfoWindow is not already opened on this marker.
           if (largeInfoWindow.marker != marker) {
-            // Clear the largeInfoWindow content to give the streetview time to load.
             largeInfoWindow.setContent('');
             largeInfoWindow.marker = marker;
-            // Make sure the marker property is cleared if the largeInfoWindow is closed.
             largeInfoWindow.addListener('closeclick', function() {
               largeInfoWindow.marker = null;
             });
             var streetViewService = new google.maps.StreetViewService();
             var radius = 50;
-            // In case the status is OK, which means the pano was found, compute the
-            // position of the streetview image, then calculate the heading, then get a
-            // panorama from that and set the options
             function getStreetView(data, status) {
               if (status == google.maps.StreetViewStatus.OK) {
                 var nearStreetViewLocation = data.location.latLng;
@@ -244,19 +242,18 @@ function AppViewModel(){
                 largeInfoWindow.setContent('<div>' + marker.title + '</div>' +
                   '<div>No Street View Found</div>');
               }
-            }
-            // Use streetview service to get the closest streetview image within
-            // 50 meters of the markers position
+
             streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-            // Open the largeInfoWindow on the correct marker.
             largeInfoWindow.open(map, marker);
           }
-        });
+        };
         marker.setMap(map);
+        });
       }
     }
   };
 
+//Roda o app.
   this.onLoad();
 };
 
